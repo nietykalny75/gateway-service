@@ -1,0 +1,47 @@
+ci2:
+  srvhost: localhost
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${ci2.srvhost}:8081/eureka
+  instance:
+    hostname: ${ci2.srvhost}
+
+management:
+  endpoints:
+    jmx:
+      exposure:
+        include: "health,info"
+    web:
+      exposure:
+        include: "health,info"
+  endpoint:
+    health:
+      show-details: never
+
+server:
+  error:
+    include-binding-errors: never
+    include-message: never
+    include-stacktrace: never
+    include-exception: false
+    whitelabel:
+      enabled: true
+  port: 8080
+
+spring:
+  main:
+    banner-mode: off
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: google-route
+          uri: https://google.com
+          predicates:
+            - Path=/google/**
+          filters:
+            - PrefixPath=/api
+            - AddResponseHeader=X-Routed-By,Gateway
