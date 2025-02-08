@@ -42,3 +42,10 @@ spring:
           filters:
             - PrefixPath=/api
             - AddResponseHeader=X-Routed-By,Gateway
+  security:
+    oauth2:
+      resourceserver:
+        opaquetoken:
+          introspection-uri: http://localhost:8081/realms/nucleus/protocol/openid-connect/token/introspect
+          client-id: nucleus
+          client-secret: YqRiH7JPmffolO28xMLAp9q3dLFzVPqy
